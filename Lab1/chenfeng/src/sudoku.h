@@ -8,6 +8,7 @@ enum { ROW=9, COL=9, N = 81, NEIGHBOR = 20 };
 
 // extern int neighbors[N][NEIGHBOR];
 
+extern int CurPos;//当前访问的board位置
 extern vector<vector<int> > board;
 // extern int spaces[N];
 // extern int nspaces;
