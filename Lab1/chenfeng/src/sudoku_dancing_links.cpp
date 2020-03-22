@@ -91,7 +91,7 @@ struct Dance
         return kBox+box*10+val;
     }
 
-    Dance(vector<int>  inout) : inout_(inout), cur_node_(0)
+    Dance(vector<int>  inout) : inout_(inout) , cur_node_(0)
     {
         stack_.reserve(100);
 
@@ -256,5 +256,8 @@ struct Dance
 bool solve_sudoku_dancing_links(int i)
 {
   Dance d(board[i]);
-  return d.solve();
+  bool val=d.solve();
+  board[i]=d.inout_;
+  return val;
+    //return d.solve();
 }

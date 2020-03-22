@@ -34,9 +34,11 @@ void workfunc(int i){
 }
 
 void printAns(){
+  ofstream out;
+  out.open("./datafiles/multhreadAns.txt");
   for(int i=0;i<CurPos;i++){
-    for(int j=0;j<81;j++)cout<<board[i][j];
-    cout<<endl;
+    for(int j=0;j<81;j++)out<<board[i][j];
+    out<<endl;
   }
 }
 
