@@ -1,11 +1,13 @@
 #ifndef SUDOKU_H
 #define SUDOKU_H
 #include <vector>
+#include <pthread.h>
 using namespace std;
 // const bool DEBUG_MODE = false;
 enum { ROW=9, COL=9, N = 81, NEIGHBOR = 20 };
 // const int NUM = 9;
 
+extern pthread_mutex_t vectorlock;
 // extern int neighbors[N][NEIGHBOR];
 
 extern int CurPos;//当前访问的board位置

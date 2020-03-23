@@ -6,12 +6,14 @@
 #include<pthread.h>
 #include "sudoku.h"
 #include "ThreadPool.h"
-#define answer 0
+#define answer 1
 using namespace std;
 pthread_mutex_t plock;
 int total_solved = 0;
 vector<vector<int> > board;
 int CurPos=0;
+
+pthread_mutex_t vectorlock;//避免vector改变数据和添加数据同时发生
 
 int64_t now()
 {
@@ -44,6 +46,7 @@ void printAns(){
 
 int main(int argc, char* argv[])
 {
+  pthread_mutex_init(&vectorlock,NULL);
     //检测cpu核数
   int cpu_num;
   cpu_num = sysconf(_SC_NPROCESSORS_CONF);
@@ -87,7 +90,8 @@ int main(int argc, char* argv[])
   //ThreadPool *t=new ThreadPool(cpu_num,board.size(),workfunc);
   double sec = (end-start)/1000000.0;
   printf("%f sec %f ms each %d\n", sec, 1000*sec/CurPos, total_solved);
-  pthread_mutex_destroy(&plock);
   if(answer) printAns();
+  pthread_mutex_destroy(&plock);
+  pthread_mutex_destroy(&vectorlock);
   return 0;
 }

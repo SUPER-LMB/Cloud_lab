@@ -60,7 +60,11 @@ void* ThreadPool::running(void *arg){
             for(int i=0;i<81;i++){
                 tmp.push_back(buf[i]-'0');
             }
+            //在向vector中添加数据时不能改变vector中的值
+            pthread_mutex_lock(&vectorlock);
             board.push_back(tmp);
+            pthread_mutex_unlock(&vectorlock);
+
             pos=CurPos++;
         }
         else {
@@ -70,6 +74,7 @@ void* ThreadPool::running(void *arg){
         pthread_mutex_unlock(&Args->lock);
         
         Args->func(pos);
+       
     }
     return NULL;
 }

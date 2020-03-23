@@ -6,7 +6,6 @@
 #include "sudoku.h"
 using namespace std;
 
-
 struct Node;
 typedef Node Column;
 struct Node
@@ -27,12 +26,43 @@ const int kRow = 100, kCol = 200, kBox = 300;
 
 struct Dance
 {
+    int board[N];
+    int spaces[N];
+    int nspaces;
+    // int (*chess)[COL] = (int (*)[COL])board;
+
     Column* root_;
-    vector<int>    inout_;
+    int*    inout_;
     Column* columns_[400];
     vector<Node*> stack_;
     Node    nodes_[kMaxNodes];
     int     cur_node_;
+
+    void find_spaces()
+    {
+        nspaces = 0;
+        for (int cell = 0; cell < N; ++cell) {
+        if (board[cell] == 0)
+            spaces[nspaces++] = cell;
+        }
+    }
+
+    void input(const char in[N])
+    {
+        for (int cell = 0; cell < N; ++cell) {
+        board[cell] = in[cell] - '0';
+        assert(0 <= board[cell] && board[cell] <= NUM);
+        }
+        find_spaces();
+    }
+
+    void get_result(char * puzzle)
+    {
+        for (int cell = 0; cell < N; ++cell) {
+        puzzle[cell] = board[cell] + '0';
+        assert('0' <= puzzle[cell] && puzzle[cell] <= '9');
+        }
+    }
 
     Column* new_column(int n = 0)
     {
@@ -91,8 +121,13 @@ struct Dance
         return kBox+box*10+val;
     }
 
-    Dance(vector<int>  inout) : inout_(inout) , cur_node_(0)
+    Dance(const char puzzle[N])
     {
+        input(puzzle) ;
+        int *inout ;
+        inout_ = board ;
+        inout = board ;
+        cur_node_ = 0 ;
         stack_.reserve(100);
 
         root_ = new_column();
@@ -107,14 +142,14 @@ struct Dance
             int row = i / 9;
             int col = i % 9;
             int box = row/3*3 + col/3;
-            int val = (inout)[i];
+            int val = inout[i];
             rows[row][val] = true;
             cols[col][val] = true;
             boxes[box][val] = true;
         }
 
         for (int i = 0; i < N; ++i) {
-            if ((inout)[i] == 0) {
+            if (inout[i] == 0) {
                 append_column(i);
             }
         }
@@ -131,7 +166,7 @@ struct Dance
         }
 
         for (int i = 0; i < N; ++i) {
-            if ((inout)[i] == 0) {
+            if (inout[i] == 0) {
                 int row = i / 9;
                 int col = i % 9;
                 int box = row/3*3 + col/3;
@@ -210,7 +245,7 @@ struct Dance
                 }
 
                 //assert(cell != -1 && val != -1);
-                (inout_)[cell] = val;
+                inout_[cell] = val;
             }
             return true;
         }
@@ -253,15 +288,18 @@ struct Dance
     }
 };
 
-bool solve_sudoku_dancing_links(int i)
+bool solve_sudoku_dancing_links(char puzzle[N], int unused)
 {
-  Dance d(board[i]);
-  bool val=d.solve();
-  //在改变vector中的数据时不能向vector中添加数据
-  pthread_mutex_lock(&vectorlock);
-  board[i]=d.inout_;
-  pthread_mutex_unlock(&vectorlock);
-
-  return val;
-    //return d.solve();
+//   Dance d(board);
+    Dance d(puzzle) ;
+    bool a =  d.solve();
+    if (!solved(d.board) && a == true)
+        assert(0);
+    if (a){
+        d.get_result(puzzle) ;
+#if DEBUG_RES
+        printf("%s", puzzle) ;
+#endif 
+    }
+    return a ;
 }
