@@ -55,9 +55,9 @@
 
 &emsp;&emsp;实验中共使用两个不同的环境：**ENV1**和**ENV2**。
 
-&emsp;&emsp;**EVN1:**linux环境下4核。
+&emsp;&emsp;**EVN1:** linux环境下4核。
 
-&emsp;&emsp;**EVN2:**linux环境下2核。
+&emsp;&emsp;**EVN2:** linux环境下2核。
 
 ## 2.3代码实现版本
 
