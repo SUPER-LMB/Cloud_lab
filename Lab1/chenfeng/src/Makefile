@@ -8,7 +8,7 @@ SRC = $(wildcard *.cpp)
  
 OBJ = $(patsubst %cpp, %o, $(SRC))
  
-BIN = soduku_solve
+BIN = sudoku_solve
 
  
 all:$(OBJ)
@@ -20,4 +20,4 @@ all:$(OBJ)
  
 .PHONY : clean
 clean:
-	rm *.o  -rf
+	rm *.o $(BIN)  -rf 

@@ -6,7 +6,7 @@
 #include<pthread.h>
 #include "sudoku.h"
 #include "ThreadPool.h"
-#define answer 1
+#define answer 2
 using namespace std;
 pthread_mutex_t plock;
 int total_solved = 0;
@@ -36,11 +36,19 @@ void workfunc(int i){
 }
 
 void printAns(){
-  ofstream out;
-  out.open("./datafiles/multhreadAns.txt");
-  for(int i=0;i<CurPos;i++){
-    for(int j=0;j<81;j++)out<<board[i][j];
-    out<<endl;
+  if(answer==1){
+    ofstream out;
+    out.open("./datafiles/multhreadAns.txt");
+    for(int i=0;i<CurPos;i++){
+      for(int j=0;j<81;j++)out<<board[i][j];
+      out<<endl;
+    }
+  }
+  else{
+    for(int i=0;i<CurPos;i++){
+      for(int j=0;j<81;j++)cout<<board[i][j];
+      cout<<endl;
+    }
   }
 }
 
@@ -84,13 +92,14 @@ int main(int argc, char* argv[])
       t->CreateThread();
       //t->WaitThread();
     }
+    delete t;
     //delete []t;
   }
   int64_t end = now();
   //ThreadPool *t=new ThreadPool(cpu_num,board.size(),workfunc);
   double sec = (end-start)/1000000.0;
-  printf("%f sec %f ms each %d\n", sec, 1000*sec/CurPos, total_solved);
   if(answer) printAns();
+  printf("%f sec %f ms each %d\n", sec, 1000*sec/CurPos, total_solved);
   pthread_mutex_destroy(&plock);
   pthread_mutex_destroy(&vectorlock);
   return 0;
