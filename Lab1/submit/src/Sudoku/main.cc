@@ -13,7 +13,7 @@
 
 using namespace std ;
 
-int SYS_THREAD_NUM = 4 ;
+int SYS_THREAD_NUM = 6 ;
 
 int64_t now()
 {
@@ -26,16 +26,17 @@ int main(int argc, char* argv[])
 {
   init_neighbors();
   SYS_THREAD_NUM = sysconf(_SC_NPROCESSORS_CONF) ;
+  //printf("%d\n",SYS_THREAD_NUM);
   // FILE* fp = fopen(argv[1], "r");
   char puzzle[128];
-  bool (*solve)(char * , int) = solve_sudoku_basic;
+  bool (*solve)(char * , int) = solve_sudoku_dancing_links;
   if (argv[1] != NULL)
     if (argv[1][0] == 'a')
       solve = solve_sudoku_min_arity;
     else if (argv[1][0] == 'c')
       solve = solve_sudoku_min_arity_cache;
-    else if (argv[1][0] == 'd')
-      solve = solve_sudoku_dancing_links;
+    else if (argv[1][0] == 'b')
+      solve = solve_sudoku_basic;
   file file_tmp ;
   // if(argv[1]!=NULL){
   //   file_list.push_back(file_tmp) ;
@@ -45,7 +46,7 @@ int main(int argc, char* argv[])
 
   char file_name[128] ;
   while(1){
-    char base[50]="./TestData/";
+    char base[128]="./TestData/";
     cin.getline(file_name, 128) ;
     if(strcmp(file_name, "") == 0){
       break ;
