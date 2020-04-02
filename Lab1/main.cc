@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 
   char file_name[128] ;
   while(1){
-    char base[128]="./TestData/";
+    //char base[128]="./TestData/";
     cin.getline(file_name, 128) ;
     if(strcmp(file_name, "") == 0){
       break ;
@@ -54,8 +54,8 @@ int main(int argc, char* argv[])
     else {
       file_list.push_back(file_tmp) ;
       file_size++ ;
-      strcat(base,file_name);
-      strcpy(file_name,base);
+      //strcat(base,file_name);
+      //strcpy(file_name,base);
       strcpy(file_list[file_size-1].file_name, file_name) ;
     }
   }
@@ -143,9 +143,7 @@ int main(int argc, char* argv[])
 //     //   printf("false %d\n", i+1) ;
 //   }
 
-
-
-  printf("total %f sec, %f ms each sudoku problem, solved %d\n", sec, 1000*sec/total, total_solved);
+  //printf("total %f sec, %f ms each sudoku problem, solved %d\n", sec, 1000*sec/total, total_solved);
   return 0;
 }
 

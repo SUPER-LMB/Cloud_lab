@@ -41,9 +41,9 @@ void* input_mission_file(void *arg){
         else {
             file file_tmp ;
             pthread_mutex_unlock(&file_input_m) ;
-            char base[128]="./TestData/";
-            strcat(base,file_name);
-            strcpy(file_name,base);
+            //char base[128]="./TestData/";
+           // strcat(base,file_name);
+            //strcpy(file_name,base);
             file_list.push_back(file_tmp) ;
             file_size++ ;
             pthread_mutex_unlock(&file_input_m) ;
